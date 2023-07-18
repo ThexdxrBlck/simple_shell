@@ -99,7 +99,7 @@ size_t print_list_str(const list_t *h)
  */
 int delete_node_at_index(list_t **head, unsigned int index)
 {
-	ist_t *node, *prev_node;
+	list_t *node, *prev_node;
 
 	unsigned int i = 0;
 
@@ -133,10 +133,11 @@ int delete_node_at_index(list_t **head, unsigned int index)
 
 /**
  * free_list - Frees all nodes of a list
+ * A
  * @head_ptr: Address of pointer to head node
  * Return: void
  */
-void free_list(list_y **head_ptr)
+void free_list(list_t **head_ptr)
 {
 	list_t *node, *next_node, *head;
 

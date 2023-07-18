@@ -13,16 +13,16 @@ int _myexit(info_t *info)
 
 	if (info->argv[1])
 	{
-		exitcheck = _erratoi(info->argv[1]);
+		exitcheck = erratoi(info->argv[1]);
 		if (exitcheck == -1)
 		{
 			info->status = 2;
 			print_error(info, "illegal number: ");
 			_eputs(info->argv[1]);
-			_eputchar('\n');
+			_putchar('\n');
 			return (1);
 		}
-		info->err_num = _erratio(info->argv[1]);
+		info->err_num = erratoi(info->argv[1]);
 		return (-2);
 	}
 	info->err_num = -1;

@@ -201,5 +201,14 @@ int replace_alias(info_t *);
 int replace_vars(info_t *);
 int replace_string(char **, char *);
 
+void _myexit(info_t *info);
+void _myenv(info_t *info);
+void myhelp(info_t *info);
+void myhistory(info_t *info);
+void _mysetenv(info_t *info);
+void _myunsetenv(info_t *info);
+void mycd(info_t *info);
+void myalias(info_t *info);
+
 #endif
 

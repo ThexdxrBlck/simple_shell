@@ -12,31 +12,36 @@
 #include <fcntl.h>
 #include <errno.h>
 
+/* for read/write buffers */
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
-#define CMD_NORM 0
+/* for command chaining */
+#define CMD_NORM	0
 #define CMD_OR		1
 #define CMD_AND		2
 #define CMD_CHAIN	3
 
+/* for convert_number() */
 #define CONVERT_LOWERCASE	1
 #define CONVERT_UNSIGNED	2
 
+/* 1 if using system getline() */
 #define USE_GETLINE 0
 #define USE_STRTOK 0
 
-#define HIST_FILE  ".simple_shell_history"
-#define HIST_MAX   4096
+#define HIST_FILE	".simple_shell_history"
+#define HIST_MAX	4096
 
 extern char **environ;
 
+
 /**
- * struct liststr - Singly linked list
- * @str: A string
- * @num: The number field
- * @next: Points to the next node
+ * struct liststr - singly linked list
+ * @num: the number field
+ * @str: a string
+ * @next: points to the next node
  */
 typedef struct liststr
 {
@@ -46,36 +51,36 @@ typedef struct liststr
 } list_t;
 
 /**
- * struct passinfo - Contains pseudo-arguments to pass into a function,
- * allowing uniform prototype for function pointer struct
- * @argv: An array of strings generated from arg
- * @arg: A string generated from getline containing arguments
- * @argc: The argument count
- * @path: A string path for the current command
- * @line_count: The error count
- * @lincount_flag: If on count this lineof input
- * @err_num: The error code for exit()s
- * @fname: The program filemane
- * @environ: Custom modified copy of environ from LL env
- * @env: linked list local copy of environ
- * @history: The history code
- * @env_changed: On if environ was changed
- * @alias: The alias node
- * @status: The return status of the last exec'd command
- * @cmd_buf_type: CMD_type ||, &&, ;
- * @cmd_buf: Address of pointer to cmd_buf, on if chaining
- * @histcount: The history line number count
- * @readfd: The fd from which to read line input
+ *struct passinfo - contains pseudo-arguements to pass into a function,
+ *		allowing uniform prototype for function pointer struct
+ *@arg: a string generated from getline containing arguements
+ *@argv: an array of strings generated from arg
+ *@path: a string path for the current command
+ *@argc: the argument count
+ *@line_count: the error count
+ *@err_num: the error code for exit()s
+ *@linecount_flag: if on count this line of input
+ *@fname: the program filename
+ *@env: linked list local copy of environ
+ *@environ: custom modified copy of environ from LL env
+ *@history: the history node
+ *@alias: the alias node
+ *@env_changed: on if environ was changed
+ *@status: the return status of the last exec'd command
+ *@cmd_buf: address of pointer to cmd_buf, on if chaining
+ *@cmd_buf_type: CMD_type ||, &&, ;
+ *@readfd: the fd from which to read line input
+ *@histcount: the history line number count
  */
 typedef struct passinfo
 {
-	char **argv;
 	char *arg;
-	int argc;
+	char **argv;
 	char *path;
+	int argc;
 	unsigned int line_count;
-	int linecount_flag;
 	int err_num;
+	int linecount_flag;
 	char *fname;
 	list_t *env;
 	list_t *history;
@@ -84,10 +89,10 @@ typedef struct passinfo
 	int env_changed;
 	int status;
 
-	char **cmd_buf;
-	int cmd_buf_type;
-	int histcount;
+	char **cmd_buf; 
+	int cmd_buf_type; 
 	int readfd;
+	int histcount;
 } info_t;
 
 #define INFO_INIT \
@@ -95,9 +100,9 @@ typedef struct passinfo
 	0, 0, 0}
 
 /**
- * struct builtin - Contains a builtin string and related function
- * @type: The builtin command flag
- * @func: The function
+ *struct builtin - contains a builtin string and related function
+ *@type: the builtin command flag
+ *@func: the function
  */
 typedef struct builtin
 {
@@ -117,7 +122,7 @@ char *find_path(info_t *, char *, char *);
 int loophsh(char **);
 
 void _eputs(char *);
-int _putchar(char);
+int _eputchar(char);
 int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
 
@@ -149,15 +154,18 @@ int is_delim(char, char *);
 int _isalpha(int);
 int _atoi(char *);
 
-int erratoi(char *);
+int _erratoi(char *);
 void print_error(info_t *, char *);
 int print_d(int, int);
 char *convert_number(long int, int, int);
-void remove_commands(char *);
+void remove_comments(char *);
 
 int _myexit(info_t *);
-int mycd(info_t *);
-int myalias(info_t *);
+int _mycd(info_t *);
+int _myhelp(info_t *);
+
+int _myhistory(info_t *);
+int _myalias(info_t *);
 
 ssize_t get_input(info_t *);
 int _getline(info_t *, char **, size_t *);
@@ -180,7 +188,7 @@ int _setenv(info_t *, char *, char *);
 char *get_history_file(info_t *info);
 int write_history(info_t *info);
 int read_history(info_t *info);
-int build_history_list(info_t *, char *buf, int linecount);
+int build_history_list(info_t *info, char *buf, int linecount);
 int renumber_history(info_t *info);
 
 list_t *add_node(list_t **, const char *, int);
@@ -202,4 +210,3 @@ int replace_vars(info_t *);
 int replace_string(char **, char *);
 
 #endif
-

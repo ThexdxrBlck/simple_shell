@@ -24,7 +24,7 @@
 shell_input="/bin/ls
      /bin/ls
 /bin/ls
-   /bin/ls     "
+   /bin/ls"
 
 ################################################################################
 # The variable 'shell_params' IS OPTIONNAL
